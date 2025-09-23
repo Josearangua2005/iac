@@ -4,14 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 6.0"
     }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.0"
-    }
   }
-  backend "s3" {
-    bucket = "tf-remote-backend-012705"
-    key = "state.tfstate"
-    region = "us-east-2"
-  }
+}
+
+# Configure the AWS Provider
+provider "aws" {
+  region = "us-east-2"
 }
