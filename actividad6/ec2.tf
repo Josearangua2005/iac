@@ -1,5 +1,10 @@
+locals {
+  instance_name  = "edgar-jose-server-terr"
+  instance_count = 2
+}
+
 resource "aws_instance" "edgar-jose_server_terr" {
-  count = local.instance_count
+  count         = local.instance_count
   ami           = "ami-0ca4d5db4872d0c28"
   instance_type = var.instance_type
 
