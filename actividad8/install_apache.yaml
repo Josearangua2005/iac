@@ -1,0 +1,40 @@
+---
+- name: Instalar y verificar Apache en Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: Verificar que el sistema operativo es Ubuntu
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['os_family'] == "Debian"
+        fail_msg: "Este playbook solo puede ejecutarse en sistemas Ubuntu/Debian."
+        success_msg: "Sistema compatible detectado: Ubuntu/Debian."
+
+    - name: Actualizar los repositorios de paquetes
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Instalar Apache2
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+
+    - name: Habilitar el servicio de Apache2 para que inicie automáticamente
+      ansible.builtin.systemd:
+        name: apache2
+        enabled: yes
+
+    - name: Iniciar el servicio Apache2
+      ansible.builtin.systemd:
+        name: apache2
+        state: started
+
+    - name: Verificar que Apache2 esté corriendo
+      ansible.builtin.systemd:
+        name: apache2
+      register: apache_status
+
+    - name: Mostrar el estado del servicio Apache2
+      ansible.builtin.debug:
+        msg: >
+          El servicio Apache2 está {{ 'activo y funcionando correctamente' if apache_status.status.ActiveState == 'active' else 'inactivo o con errores' }}.
