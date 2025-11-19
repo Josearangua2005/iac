@@ -1,0 +1,5 @@
+aws_region       = "us-east-2"
+instance_type    = "t3.micro"
+environment      = "production"
+public_key_path  = "/home/arangua/.ssh/doing.pub"
+private_key_path = "/home/arangua/.ssh/doing"
